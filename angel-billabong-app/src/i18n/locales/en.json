@@ -1,0 +1,66 @@
+{
+  "home": {
+    "hero": {
+      "title": "SAFE AND COMFORTABLE <br/> DAILY SEA CROSSINGS"
+    },
+    "about": {
+      "welcome": "WELCOME TO",
+      "heading": "A seamless journey for those seeking speed, comfort, and scenic beauty.",
+      "description": "Departing from Bali, Angel Billabong Fast Cruise offers swift transfers to Nusa Penida with modern speed boats. Enjoy spacious cabins with <span class=\"text-[#e2c139]\">comfortable seating</span> and life jackets for added safety. Utilizing the latest sailing technology, the service ensures a smooth and secure voyage across the ocean. Guests are provided with two lifeboats for peace of mind, making Angel Billabong Fast Cruise the ideal choice for a quick and pleasant escape to Nusa Penida.",
+      "button": "Book Now!"
+    },
+    "schedule": {
+      "title": "Departure Schedule",
+      "heading": "Punctual & Reliable Crossings",
+      "description": "Beyond just a transit, we offer a refined passage to Nusa Penida. Our commitment to a flawless schedule means you can travel with confidence, knowing that excellence and reliability are at the heart of every voyage.",
+      "button": "Book Now"
+    },
+    "cta": {
+      "title": "Ready to Explore Nusa Penida?",
+      "subtitle": "Get your tickets now and enjoy an unforgettable journey.",
+      "button": "Book Now"
+    }
+  },
+  "booking": {
+    "hero_title": "Book Your Boat Trip",
+    "available_trips": "Available Trips",
+    "recommended_title": "Recommended Trips",
+    "start_from": "START FROM",
+    "book_now_btn": "Book Now",
+    "gallery_title": "Our Gallery",
+    "view_all_gallery": "view all gallery"
+  },
+  "process your payment.": "Process Your Payment",
+  "payment": {
+    "back": "Back",
+    "confirm_title": "CONFIRM YOUR BOOKING.",
+    "time_label": "TIME",
+    "date_label": "DATE",
+    "booked_by": "Booked By",
+    "full_name": "Full Name",
+    "last_name": "Last Name",
+    "passenger_details": "Passenger Details",
+    "pax": "Pax",
+    "chargeable": "Chargeable",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "age": "Age",
+    "nationality": "Nationality",
+    "time": "Time",
+    "sidebar": {
+      "date": "Departure Date",
+      "from": "From",
+      "to": "To",
+      "promo_placeholder": "Enter promo code",
+      "promo_btn": "Apply",
+      "total": "Total Payment",
+      "tax_info": "*Prices include taxes and service fees.",
+      "agree_text": "I agree with the",
+      "terms": "Terms & Conditions",
+      "and": "and",
+      "privacy": "Privacy Policy",
+      "pay_btn": "Proceed to Payment"
+    }
+  }
+}

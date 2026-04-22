@@ -1,0 +1,66 @@
+{
+  "home": {
+    "hero": {
+      "title": "PENYEBERANGAN LAUT HARIAN <br/> YANG AMAN DAN NYAMAN"
+    },
+    "about": {
+      "welcome": "SELAMAT DATANG DI",
+      "heading": "Perjalanan mulus bagi mereka yang mencari kecepatan, kenyamanan, dan keindahan pemandangan.",
+      "description": "Berangkat dari Bali, Angel Billabong Fast Cruise menawarkan transfer cepat ke Nusa Penida dengan kapal cepat modern. Nikmati kabin luas dengan <span class=\"text-[#e2c139]\">tempat duduk nyaman</span> dan jaket pelampung untuk keamanan tambahan. Menggunakan teknologi pelayaran terbaru, layanan ini memastikan perjalanan yang lancar dan aman melintasi lautan. Tamu disediakan dua sekoci untuk ketenangan pikiran, menjadikan Angel Billabong Fast Cruise pilihan ideal untuk pelarian yang cepat dan menyenangkan ke Nusa Penida.",
+      "button": "Pesan Sekarang!"
+    },
+    "schedule": {
+      "title": "Jadwal Keberangkatan",
+      "heading": "Penyeberangan Tepat Waktu & Andal",
+      "description": "Lebih dari sekadar transit, kami menawarkan perjalanan yang berkelas ke Nusa Penida. Komitmen kami terhadap jadwal yang sempurna berarti Anda dapat bepergian dengan percaya diri, mengetahui bahwa keunggulan dan keandalan adalah inti dari setiap pelayaran.",
+      "button": "Pesan Sekarang"
+    },
+    "cta": {
+      "title": "Siap Menjelajahi Nusa Penida?",
+      "subtitle": "Dapatkan tiket Anda sekarang dan nikmati perjalanan yang tak terlupakan.",
+      "button": "Pesan Sekarang"
+    }
+  },
+  "booking": {
+    "hero_title": "PESAN PERJALANAN KAPAL ANDA",
+    "available_trips": "Trip Tersedia",
+    "recommended_title": "Rekomendasi Perjalanan",
+    "start_from": "MULAI DARI",
+    "book_now_btn": "Pesan Sekarang",
+    "gallery_title": "Galeri Kami",
+    "view_all_gallery": "lihat semua galeri"
+  },
+  "process your payment.": "Proses Pembayaran Anda",
+  "payment": {
+    "back": "Kembali",
+    "confirm_title": "KONFIRMASI PESANAN ANDA.",
+    "time_label": "WAKTU",
+    "date_label": "TANGGAL",
+    "booked_by": "Dipesan Oleh",
+    "full_name": "Nama Lengkap",
+    "last_name": "Nama Belakang",
+    "passenger_details": "Detail Penumpang",
+    "pax": "Pax",
+    "chargeable": "Dikenakan Biaya",
+    "gender": "Jenis Kelamin",
+    "male": "Laki-laki",
+    "female": "Perempuan",
+    "age": "Usia",
+    "nationality": "Kewarganegaraan",
+    "time": "Waktu",
+    "sidebar": {
+      "date": "Tanggal Keberangkatan",
+      "from": "Dari",
+      "to": "Ke",
+      "promo_placeholder": "Masukkan kode promo",
+      "promo_btn": "Gunakan",
+      "total": "Total Pembayaran",
+      "tax_info": "*Harga sudah termasuk pajak dan biaya layanan.",
+      "agree_text": "Saya setuju dengan",
+      "terms": "Syarat & Ketentuan",
+      "and": "dan",
+      "privacy": "Kebijakan Privasi",
+      "pay_btn": "Lanjutkan ke Pembayaran"
+    }
+  }
+}

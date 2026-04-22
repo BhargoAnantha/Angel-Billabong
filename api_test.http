@@ -1,0 +1,15 @@
+### Ambil Semua Data Trip
+GET http://localhost:5000/api/trips
+
+###
+
+### Tambah Booking Baru
+POST http://localhost:5000/api/bookings
+Content-Type: application/json
+
+{
+  "tripId": 1,
+  "customerName": "Gede Anantha",
+  "date": "2026-03-01",
+  "passengers": 2
+}

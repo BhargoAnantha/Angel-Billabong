@@ -1,0 +1,142 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import BookingSearch from '../components/Booking/BookingSearch';
+import MyReservationModal from '../components/Booking/MyReservation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Star, CheckCircle, MapPin, Ticket } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
+
+export default function BookingView() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 🔥 STATE API
+  const [trips, setTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // 🔥 FETCH DATA DARI BACKEND
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/trips");
+
+        // mapping dari backend ke format UI kamu
+        const mappedTrips = res.data.map((item) => ({
+          id: item.ID,
+          img: "/img/trips1.png", // sementara static (bisa kamu upgrade nanti)
+          title: item.trips_name,
+          location: item.location,
+          benefits: [
+            "Fastboat Return Ticket",
+            "Driver as Guide",
+            "Private Car & Petrol",
+            "Entrance Fee to all Spot",
+            "Lunch"
+          ]
+        }));
+
+        setTrips(mappedTrips);
+
+      } catch (err) {
+        console.error("Error fetch trips:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrips();
+  }, []);
+
+  const handleBooking = (tripId) => {
+    navigate(`/trip-detail/${tripId}`);
+  };
+
+  const handleGoToGallery = (e) => {
+    e.preventDefault();
+    navigate('/gallery');
+  };
+
+  return (
+    <div className="bg-white min-h-screen relative font-['Poppins'] overflow-x-hidden">
+      
+      <AnimatePresence>
+        {isModalOpen && <MyReservationModal onClose={() => setIsModalOpen(false)} />}
+      </AnimatePresence>
+
+      {/* HERO */}
+      <section className="relative h-[85vh] md:h-screen flex items-center justify-center text-white">
+        <img src="/img/bookingpages-bg.png" className="absolute w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/40"></div>
+
+        <div className="relative z-10 w-full max-w-7xl text-center px-6">
+          <h1 className="text-4xl md:text-6xl mb-12 uppercase">
+            {t('booking.hero_title', 'Book Your Boat Trip')}
+          </h1>
+          <BookingSearch />
+        </div>
+      </section>
+
+      {/* TRIPS */}
+      <section className="py-24 px-6 max-w-7xl mx-auto">
+        <h2 className="text-3xl text-center font-black mb-16">
+          {t('booking.recommended_title', 'Recommended Trips')}
+        </h2>
+
+        {/* 🔥 LOADING */}
+        {loading ? (
+          <div className="text-center font-bold">Loading trips...</div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-10">
+            {trips.map((trip) => (
+              <motion.div key={trip.id} whileHover={{ y: -10 }} className="bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col">
+
+                <img src={trip.img} className="h-60 object-cover" />
+
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold">{trip.title}</h3>
+
+                  <div className="flex items-center gap-2 text-slate-400 text-sm mb-4">
+                    <MapPin size={14} /> {trip.location}
+                  </div>
+
+                  <div className="flex-grow">
+                    {trip.benefits.map((b, i) => (
+                      <div key={i} className="flex gap-2 text-sm mb-1">
+                        <CheckCircle size={14} className="text-green-500" />
+                        {b}
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => handleBooking(trip.id)}
+                    className="mt-6 bg-[#001D3D] text-white py-3 rounded-xl"
+                  >
+                    <Ticket size={16} className="inline mr-2" />
+                    {t('booking.book_now_btn', 'Book This Trip')}
+                  </button>
+                </div>
+
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* GALLERY */}
+      <section className="py-24 bg-slate-50 text-center">
+        <h2 className="text-3xl font-bold mb-10">Capture The Moments</h2>
+
+        <button
+          onClick={handleGoToGallery}
+          className="mt-6 px-8 py-3 border rounded-full"
+        >
+          {t('booking.view_all_gallery', 'view all gallery')}
+        </button>
+      </section>
+
+    </div>
+  );
+}
