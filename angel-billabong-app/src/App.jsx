@@ -18,8 +18,8 @@ import GalleryView from './pages/GalleryView';
 import ContactView from './pages/ContactView';
 
 // Admin Views (Pastikan path import sesuai dengan folder yang kamu buat)
-import AdminLayout from './pages/Admin/AdminLayout';
-import DashboardUserList from './pages/Admin/DashboardUserList';
+// import AdminLayout from './pages/Admin/AdminLayout';
+// import DashboardUserList from './pages/Admin/DashboardUserList';
 
 /**
  * Komponen pembungkus untuk layout publik (memiliki Navbar & Footer)
