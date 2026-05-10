@@ -1,20 +1,21 @@
 // src/pages/Admin/AdminLayout.jsx
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
-export default function AdminLayout({ children }) {
+export default function AdminLayout() {
   return (
-    <div className="flex min-h-screen">
-      {/* 1. Komponen Sidebar (Langkah 4) */}
+    <div className="flex min-h-screen w-full bg-slate-100 overflow-hidden font-sans text-slate-900">
       <Sidebar />
-      
-      {/* 2. Main Content Area yang berisi halaman anak (Langkah 5) */}
-      <div className="flex-1 flex flex-column bg-slate-100">
-        {/* Placeholder untuk Topbar Minimalist (Optional) */}
-        {/* <Topbar /> */}
+      <main className="flex-1 h-screen overflow-y-auto custom-scrollbar relative">
+        <div className="p-8 pb-20">
+          <Outlet /> {/* TEMPAT KONTEN HALAMAN MUNCUL */}
+        </div>
         
-        {children}
-      </div>
+        <footer className="absolute bottom-6 left-0 w-full text-center text-slate-400 text-[10px] font-black uppercase tracking-widest">
+          @ 2026 Angel Billabong Fast Cruise • Internal Admin System
+        </footer>
+      </main>
     </div>
   );
 }

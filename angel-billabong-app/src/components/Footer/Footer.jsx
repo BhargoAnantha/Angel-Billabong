@@ -2,7 +2,7 @@ import { MapPin, Mail, Phone, Instagram } from 'lucide-react';
 
 const PAYMENT_LOGOS = [
   { name: 'Mastercard', img: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg' },
-  { name: 'Visa', img: 'https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg' },
+  { name: 'Visa', img: 'https://raw.githubusercontent.com/aaronfagan/svg-credit-card-payment-icons/master/flat/visa.svg' },
   { name: 'JCB', img: 'https://upload.wikimedia.org/wikipedia/commons/4/40/JCB_logo.svg' },
   { name: 'Amex', img: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg' },
   { name: 'QRIS', img: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg' },

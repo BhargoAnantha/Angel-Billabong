@@ -1,111 +1,86 @@
 // src/pages/Admin/Sidebar.jsx
 import React from 'react';
-import { 
-  LayoutDashboard, 
-  Anchor, 
-  Ship, 
-  ClipboardList, 
-  Map, 
-  Ticket, 
-  Settings, 
-  ChevronDown, 
-  UserCircle 
-} from 'lucide-react';
+import { Ship, ClipboardList, Map, Ticket, LogOut } from 'lucide-react'; // Sudah diperbaiki ke lucide-react
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { logout } from '../../services/AuthService';
 
-const navItems = [
-  { 
-    group: 'Management', 
-    icon: <LayoutDashboard size={18} />, 
-    subItems: [
-      { name: 'Account Management', icon: <UserCircle size={18} /> }
-    ] 
-  },
-  { 
-    group: 'Operational', 
-    icon: <Anchor size={18} />, 
-    subItems: [
-      { name: 'Transport', icon: <Ship size={18} /> },
-      { name: 'Transport Book', icon: <ClipboardList size={18} /> },
-      { name: 'Trips', icon: <Map size={18} /> },
-      { name: 'Trips Book', icon: <Ticket size={18} /> }
-    ] 
-  },
-  { 
-    group: 'Event Settings', 
-    icon: <Settings size={18} />, 
-    subItems: [
-      { name: 'Event List', icon: <ClipboardList size={18} /> }
-    ] 
-  },
+const menuItems = [
+  { name: 'Transport', path: '/admin/transport', icon: <Ship size={18} /> },
+  { name: 'Transport Book', path: '/admin/transport-book', icon: <ClipboardList size={18} /> },
+  { name: 'Trips', path: '/admin/trips', icon: <Map size={18} /> },
+  { name: 'Trips Book', path: '/admin/trips-book', icon: <Ticket size={18} /> }
 ];
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogout = () => {
+    if (window.confirm("Keluar dari sistem?")) {
+      logout();
+      navigate('/login');
+    }
+  };
+
+  /** * PERBAIKAN LOGIKA WARNA: 
+   * Menggunakan perbandingan eksak (===) agar '/admin/trips' 
+   * tidak ikut biru saat di halaman '/admin/trips-book'.
+   */
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <div className="w-[280px] bg-[#001D35] text-white/70 h-screen flex flex-col font-sans sticky top-0 overflow-hidden">
+    <div className="w-[280px] bg-[#001D35] text-white/70 h-screen flex flex-col font-sans sticky top-0 border-r border-white/5">
       
-      {/* 1. BRAND LOGO */}
+      {/* Brand Logo Section */}
       <div className="p-8 pb-12 flex items-center gap-4 text-white">
-        <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-white shadow-lg">
+        <div className="w-12 h-12 bg-sky-500 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-500/20">
           <Ship size={24} />
         </div>
         <div>
-          <h1 className="text-xl font-black uppercase tracking-tighter leading-tight">Angel Billabong</h1>
-          <p className="text-[10px] font-bold text-sky-200 uppercase tracking-widest leading-none">Fast Cruise</p>
+          <h1 className="text-xl font-black uppercase tracking-tighter italic leading-tight">Angel Billabong</h1>
+          <p className="text-[10px] font-bold text-sky-300 uppercase tracking-[0.2em] leading-none">Fast Cruise</p>
         </div>
       </div>
 
-      {/* 2. NAVIGATION MENU */}
-      <nav className="flex-1 px-4 space-y-2 overflow-y-auto custom-scrollbar">
-        {navItems.map((group, index) => (
-          <div key={index} className="mb-6">
-            <div className="flex items-center justify-between px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/30 mb-2">
-              <span>{group.group}</span>
-              <ChevronDown size={12} />
-            </div>
-            
-            <div className="space-y-1">
-              {group.subItems.map((item) => (
-                <button
-                  key={item.name}
-                  className={`w-full text-left px-5 py-3.5 rounded-2xl text-sm font-bold transition-all flex items-center gap-4 group
-                  ${item.name === 'Transport' ? 'bg-[#003B6D] text-white shadow-lg shadow-blue-900/20' : 'hover:bg-white/5 hover:text-white'}`}
-                >
-                  <span className={`${item.name === 'Transport' ? 'text-sky-300' : 'text-white/30 group-hover:text-sky-300'} transition-colors`}>
-                    {item.icon}
-                  </span>
-                  <span className="tracking-tight">{item.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
+      {/* Navigation Links */}
+      <nav className="flex-1 px-4 space-y-2">
+        <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/20 mb-4">Operational</p>
+        {menuItems.map((item) => {
+          const active = isActive(item.path);
+          return (
+            <Link 
+              key={item.name} 
+              to={item.path}
+              className={`w-full px-5 py-4 rounded-2xl text-sm font-bold flex items-center gap-4 transition-all duration-300
+              ${active 
+                ? 'bg-sky-600 text-white shadow-xl shadow-sky-900/40' 
+                : 'hover:bg-white/5 hover:text-white'}`}
+            >
+              <span className={active ? 'text-white' : 'text-white/30 transition-colors group-hover:text-white'}>
+                {item.icon}
+              </span>
+              {item.name}
+            </Link>
+          );
+        })}
       </nav>
 
-      {/* 3. PROFILE / ACCOUNT SECTION */}
-      <div className="p-8 border-t border-white/5 bg-[#00182d]">
-        <div className="flex items-center gap-4">
-          <div className="w-11 h-11 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl flex items-center justify-center font-black text-white italic text-lg shadow-inner border border-white/10">
-            BH
-          </div>
+      {/* Admin Profile & Logout */}
+      <div className="p-6 bg-[#00182d]">
+        <div className="flex items-center gap-3 mb-6 px-2">
+          <div className="w-10 h-10 bg-slate-700 rounded-xl flex items-center justify-center font-black text-white italic text-sm">BA</div>
           <div className="overflow-hidden">
-            <p className="font-bold text-white text-sm truncate">Bhargo Agency</p>
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Admin Panel</p>
+            <p className="font-bold text-white text-xs truncate italic">Bhargo Anantha</p>
+            <p className="text-[9px] font-black uppercase text-sky-400 tracking-widest">Super Admin</p>
           </div>
         </div>
+        <button 
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-5 py-3 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 text-[10px] font-black uppercase tracking-widest"
+        >
+          <LogOut size={16} /> Sign Out
+        </button>
       </div>
-
-      <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 10px;
-        }
-      `}</style>
     </div>
   );
 }

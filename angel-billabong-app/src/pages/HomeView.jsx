@@ -35,12 +35,10 @@ export default function HomeView() {
     offset: ["start end", "end start"]
   });
 
-  // Fungsi navigasi ke halaman Booking (Gambar 2)
   const goToBooking = () => {
     navigate('/booking');
   };
 
-  // Fungsi navigasi ke halaman Detail (Gambar 3)
   const goToDetail = (tripId) => {
     navigate(`/trip-detail/${tripId}`);
   };
@@ -64,6 +62,57 @@ export default function HomeView() {
           <motion.div animate={{ y: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="mt-12 flex flex-col items-center">
             <div className="w-[2px] h-16 bg-white"></div>
             <div className="w-4 h-4 border-b-2 border-r-2 border-white rotate-45 -mt-2"></div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* NEW: ABOUT US SECTION (Gambar 2) */}
+      <section className="py-24 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-16">
+          {/* Teks Deskripsi */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex-1 space-y-8 font-['Poppins']"
+          >
+            <h4 className="text-[13px] font-bold tracking-[0.3em] text-[#001D3D] uppercase">
+              Welcome to <span className="font-black">Angel Billabong Fast Cruise</span>
+            </h4>
+            <h2 className="text-[38px] md:text-[54px] font-medium leading-[1.1] text-[#001D3D] tracking-tight">
+              A seamless journey for those seeking speed, comfort, and scenic beauty.
+            </h2>
+            <div className="space-y-4 text-slate-600 text-[15px] leading-relaxed max-w-xl">
+              <p>
+                Departing from Bali, Angel Billabong Fast Cruise offers swift transfers to Nusa Penida with modern speed boats. Enjoy spacious cabins with <span className="text-[#e2c139] font-bold">comfortable seating</span> and life jackets for added safety. 
+              </p>
+              <p>
+                Utilizing the latest sailing technology, the service ensures a smooth and secure voyage across the ocean. Guests are provided with two lifeboats for peace of mind, making Angel Billabong Fast Cruise the ideal choice for a quick and pleasant escape to Nusa Penida.
+              </p>
+            </div>
+            <button 
+              onClick={goToBooking}
+              className="bg-[#e2c139] hover:bg-[#d4b535] text-white px-10 py-4 rounded-sm font-bold text-sm tracking-widest transition-all shadow-xl uppercase cursor-pointer"
+            >
+              Book Now!
+            </button>
+          </motion.div>
+
+          {/* Gambar Kapal Portrait */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex-1 w-full"
+          >
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-[#f8fafc] rounded-sm -z-10 group-hover:bg-[#e2c139]/10 transition-colors duration-500"></div>
+              <img 
+                src="/img/about.png" 
+                className="w-full h-[650px] object-cover rounded-sm shadow-2xl"
+                alt="Angel Billabong Boat Service"
+              />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -114,7 +163,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* SCHEDULE SECTION (DENGAN BUTTON KUNING KE BOOKING) */}
+      {/* SCHEDULE SECTION */}
       <div ref={containerRef} className="relative w-full bg-white overflow-hidden py-20">
         <div className="flex items-center justify-center">
           <motion.div 
@@ -156,7 +205,6 @@ export default function HomeView() {
                   <h2 className="text-[36px] md:text-[52px] font-semibold mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: t('home.schedule.heading') }} />
                   <p className="text-slate-200 text-sm md:text-lg leading-relaxed mb-8 opacity-90 max-w-md font-light">{t('home.schedule.description')}</p>
                   
-                  {/* FIX: Tombol Kuning Sekarang ke /booking (Gambar 2) */}
                   <button onClick={goToBooking} className="w-fit text-[#e2c139] font-black uppercase tracking-[0.2em] border-b-2 border-[#e2c139] pb-1 hover:text-white hover:border-white transition-all cursor-pointer">
                     {t('home.schedule.button', 'BOOK NOW')}
                   </button>

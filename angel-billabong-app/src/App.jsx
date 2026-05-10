@@ -1,47 +1,68 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Outlet } from 'react-router-dom';
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, useLocation, Outlet, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import './i18n/config';
+
+// Import AuthService
+import { isAuthenticated, clearAdminSession } from './services/AuthService';
 
 // Layout Components
 import Navbar from './components/Navbar/Navbar'; 
 import Footer from './components/Footer/Footer';
 
-// Page Views
+// Page Views - Public
 import HomeView from './pages/HomeView';
 import BookingView from './pages/BookingView';
 import ResultView from './pages/ResultView';
-import PaymentView from './pages/PaymentView';
-import ProcessPayment from './pages/ProcessPayment';
-import TripDetailView from './pages/TripDetailView';
-import TripBookingView from './pages/TripBookingView'; 
 import GalleryView from './pages/GalleryView';
 import ContactView from './pages/ContactView';
+import TripDetailView from './pages/TripDetailView';
+import TripBookingView from './pages/TripBookingView';
+import PaymentView from './pages/PaymentView';
+import ProcessPayment from './pages/ProcessPayment';
 
-// Admin Views (Pastikan path import sesuai dengan folder yang kamu buat)
+// Page Views - Admin
+import LoginView from './pages/Admin/LoginView'; 
 import AdminLayout from './pages/Admin/AdminLayout';
-import DashboardUserList from './pages/Admin/DashboardUserList';
+import Transport from './pages/Admin/Transport'; 
+import Trips from './pages/Admin/Trips';         
+import TransportBook from './pages/admin/TransportBook';
+// Update: Import komponen baru yang kamu buat
+import TripsBook from './pages/admin/TripsBook'; 
 
-/**
- * Komponen pembungkus untuk layout publik (memiliki Navbar & Footer)
- */
-const PublicLayout = () => (
-  <>
-    <Navbar />
-    <main className="min-h-screen">
-      <Outlet /> 
-    </main>
-    <Footer />
-  </>
-);
+// Komponen Proteksi Rute Admin
+const ProtectedRoute = ({ children }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 
-/**
- * ScrollToTop untuk navigasi
- */
+// Layout untuk Halaman Publik (User)
+const PublicLayout = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    const isInsideAdminArea = location.pathname.startsWith('/admin') || location.pathname === '/login';
+    if (!isInsideAdminArea) {
+      clearAdminSession();
+    }
+  }, [location]);
+
+  return (
+    <>
+      <Navbar />
+      <main className="min-h-screen">
+        <Outlet /> 
+      </main>
+      <Footer />
+    </>
+  );
+};
+
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
 
@@ -49,9 +70,8 @@ function App() {
   return (
     <Router>
       <ScrollToTop /> 
-      
       <Routes>
-        {/* Rute Publik: Menggunakan PublicLayout (Navbar + Footer) */}
+        {/* GROUP 1: RUTE PUBLIK */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomeView />} />
           <Route path="/booking" element={<BookingView />} />
@@ -64,19 +84,27 @@ function App() {
           <Route path="/process-payment" element={<ProcessPayment />} />
         </Route>
 
-        {/* Rute Admin: Menggunakan AdminLayout (Tanpa Navbar/Footer Publik) */}
-        {/* Kamu bisa akses di: http://localhost:5173/admin-dashboard */}
+        {/* GROUP 2: LOGIN */}
+        <Route path="/login" element={<LoginView />} />
+
+        {/* GROUP 3: RUTE ADMIN (DIPROTEKSI) */}
         <Route 
-          path="/admin-dashboard" 
+          path="/admin" 
           element={
-            <AdminLayout>
-              <DashboardUserList />
-            </AdminLayout>
-          } 
-        />
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to="transport" replace />} />
+          <Route path="transport" element={<Transport />} />
+          <Route path="trips" element={<Trips />} />
+          <Route path="transport-book" element={<TransportBook/>} />
+          {/* Update: Menghubungkan path ke komponen TripsBook asli */}
+          <Route path="trips-book" element={<TripsBook />} />
+        </Route>
         
-        {/* Fallback */}
-        <Route path="*" element={<HomeView />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

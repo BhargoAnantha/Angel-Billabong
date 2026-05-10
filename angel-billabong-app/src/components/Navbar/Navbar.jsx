@@ -1,10 +1,11 @@
+// src/components/Navbar/Navbar.jsx
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Calendar, ChevronDown, Ticket } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-export default function Navbar({ onMyReservationClick }) {
+export default function Navbar() {
   const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -14,7 +15,6 @@ export default function Navbar({ onMyReservationClick }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Konfigurasi visibilitas tombol aksi
   const hideActionButton = ['/results', '/payment', '/process-payment'].includes(location.pathname);
   const isBookingPage = location.pathname === '/booking';
 
@@ -35,7 +35,6 @@ export default function Navbar({ onMyReservationClick }) {
     };
   }, []);
 
-  // Lock scroll saat menu overlay terbuka
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'unset';
   }, [isOpen]);
@@ -50,20 +49,22 @@ export default function Navbar({ onMyReservationClick }) {
     id: { name: 'ID', flag: 'https://flagcdn.com/w20/id.png' }
   };
 
-  // Navigasi yang telah diperbarui ke /contact
   const navLinks = [
     { name: t('navbar.home', 'Home'), href: '/' },
     { name: t('navbar.reservation', 'Reservation'), href: '/booking' },
     { name: t('navbar.gallery', 'Gallery'), href: '/gallery' },
-    { name: t('navbar.contact', 'Contact Us'), href: '/contact' }, // Update di sini
+    { name: t('navbar.contact', 'Contact Us'), href: '/contact' },
   ];
 
   const handleNavigation = (path) => {
     setIsOpen(false);
-    // Delay sedikit agar animasi tutup menu selesai sebelum navigasi (opsional)
     setTimeout(() => {
       navigate(path);
     }, 300);
+  };
+
+  const handleOpenReservationModal = () => {
+    window.dispatchEvent(new CustomEvent('openReservationModal'));
   };
 
   return (
@@ -75,38 +76,38 @@ export default function Navbar({ onMyReservationClick }) {
             : 'bg-transparent py-6'
         }`}
       >
-        {/* LEFT: Hamburger */}
-        <div className="flex items-center w-1/3">
+        {/* LEFT: Hamburger - Dikasih z-index agar di atas area brand */}
+        <div className="flex items-center w-fit z-[110]">
           <button 
             onClick={() => setIsOpen(true)} 
-            className="text-white hover:text-sky-400 transition-colors p-1 -ml-1 cursor-pointer"
+            className="text-white hover:text-sky-400 transition-colors p-2 -ml-2 cursor-pointer relative"
           >
             <Menu size={32} />
           </button>
         </div>
 
-        {/* CENTER: Brand */}
-        <div className="flex justify-center w-1/3">
-          <Link to="/" className="text-white font-bold text-lg md:text-2xl tracking-tight whitespace-nowrap uppercase">
+        {/* CENTER: Brand - Pakai Absolute agar tidak memakan space tombol kiri/kanan */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+          <Link to="/" className="text-white font-bold text-sm md:text-2xl tracking-tight whitespace-nowrap uppercase pointer-events-auto">
              Angel Billabong Fast Cruise
           </Link>
         </div>
 
-        {/* RIGHT: Action & Language */}
-        <div className="flex items-center justify-end gap-3 md:gap-6 w-1/3">
+        {/* RIGHT: Action & Language - z-index tinggi agar tidak tertutup */}
+        <div className="flex items-center justify-end gap-3 md:gap-6 w-fit z-[110]">
           {!hideActionButton && (
-            <div>
+            <div className="hidden sm:block">
               {isBookingPage ? (
                 <button 
-                  onClick={onMyReservationClick}
-                  className="hidden sm:flex items-center gap-2 border border-white/30 bg-white/10 hover:bg-white hover:text-slate-900 text-white px-5 py-2 rounded-full transition-all text-[11px] font-bold tracking-[0.15em]"
+                  onClick={handleOpenReservationModal}
+                  className="flex items-center gap-2 border border-white/30 bg-white/10 hover:bg-white hover:text-slate-900 text-white px-5 py-2 rounded-full transition-all text-[11px] font-bold tracking-[0.15em]"
                 >
                   <Ticket size={14} /> {t('navbar.my_reservation', 'MY RESERVATION')}
                 </button>
               ) : (
                 <Link 
                   to="/booking"
-                  className="hidden sm:flex items-center gap-2 border border-white/30 bg-white/10 hover:bg-white hover:text-slate-900 text-white px-5 py-2 rounded-full transition-all text-[11px] font-bold tracking-[0.15em]"
+                  className="flex items-center gap-2 border border-white/30 bg-white/10 hover:bg-white hover:text-slate-900 text-white px-5 py-2 rounded-full transition-all text-[11px] font-bold tracking-[0.15em]"
                 >
                   <Calendar size={14} /> {t('navbar.book_now', 'BOOK NOW')}
                 </Link>
@@ -114,9 +115,13 @@ export default function Navbar({ onMyReservationClick }) {
             </div>
           )}
 
+          {/* Language Dropdown */}
           <div className="relative" ref={langRef}>
             <button 
-              onClick={() => setIsLangOpen(!isLangOpen)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLangOpen(!isLangOpen);
+              }}
               className="flex items-center gap-1.5 text-white hover:opacity-80 transition-all py-2"
             >
               <img 
@@ -132,7 +137,7 @@ export default function Navbar({ onMyReservationClick }) {
               {isLangOpen && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-2 w-40 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden py-1 z-[110]"
+                  className="absolute right-0 mt-2 w-40 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden py-1 z-[120]"
                 >
                   {Object.entries(languages).map(([code, info]) => (
                     <button
@@ -160,12 +165,16 @@ export default function Navbar({ onMyReservationClick }) {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] bg-black/40 backdrop-blur-[20px] flex flex-col" 
           >
+            {/* Clickable background to close */}
             <div className="absolute inset-0 z-[-1]" onClick={() => setIsOpen(false)}></div>
 
-            <div className={`w-full px-6 md:px-12 flex items-center py-6`}>
+            <div className="w-full px-6 md:px-12 flex items-center py-6">
               <button 
-                onClick={() => setIsOpen(false)} 
-                className="text-white hover:rotate-90 transition-all p-2 -ml-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOpen(false);
+                }} 
+                className="text-white hover:rotate-90 transition-all p-2 -ml-2 cursor-pointer z-[230] relative"
               >
                 <X size={32} />
               </button>

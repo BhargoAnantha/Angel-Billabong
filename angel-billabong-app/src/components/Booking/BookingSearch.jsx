@@ -1,3 +1,4 @@
+// src/components/Booking/BookingSearch.jsx
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Calendar, MapPin, Minus, Plus, Search, AlertCircle, Check } from 'lucide-react';
@@ -9,7 +10,6 @@ export default function BookingSearch() {
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState("Sanur - Nusa Penida");
   
-  // Variabel untuk membatasi tanggal
   const today = new Date().toISOString().split('T')[0];
   const [departDateValue, setDepartDateValue] = useState("");
   const [returnDateValue, setReturnDateValue] = useState("");
@@ -58,13 +58,19 @@ export default function BookingSearch() {
       return;
     }
 
+    // UPDATE: Menentukan rute balik secara otomatis untuk dikirim ke backend/admin
+    const returnRoute = selectedRoute === "Sanur - Nusa Penida" 
+      ? "Nusa Penida - Sanur" 
+      : "Sanur - Nusa Penida";
+
     const searchParams = {
       route: selectedRoute,
+      returnRoute: isRoundTrip ? returnRoute : null, // Menambahkan rute balik
       departDate: departDateValue,
       returnDate: isRoundTrip ? returnDateValue : null,
       passengers: passengers,
       isRoundTrip: isRoundTrip,
-      currentStep: "departure" // Membantu halaman results tahu harus mulai dari mana
+      currentStep: "departure"
     };
 
     navigate('/results', { state: searchParams });
