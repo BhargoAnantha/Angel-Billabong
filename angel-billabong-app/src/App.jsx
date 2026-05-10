@@ -66,14 +66,14 @@ function App() {
 
         {/* Rute Admin: Menggunakan AdminLayout (Tanpa Navbar/Footer Publik) */}
         {/* Kamu bisa akses di: http://localhost:5173/admin-dashboard */}
-        <Route 
+        {/* <Route 
           path="/admin-dashboard" 
           element={
             <AdminLayout>
               <DashboardUserList />
             </AdminLayout>
           } 
-        />
+        /> */}
         
         {/* Fallback */}
         <Route path="*" element={<HomeView />} />
