@@ -12,42 +12,66 @@ export default function BookingView() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 🔥 STATE API
-  const [trips, setTrips] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
 
-  // 🔥 FETCH DATA DARI BACKEND
-  useEffect(() => {
-    const fetchTrips = async () => {
-      try {
-        const res = await axios.get("http://localhost:8080/api/v1/trips");
-
-        // mapping dari backend ke format UI kamu
-        const mappedTrips = res.data.map((item) => ({
-          id: item.ID,
-          img: "/img/trips1.png", // sementara static (bisa kamu upgrade nanti)
-          title: item.trips_name,
-          location: item.location,
-          benefits: [
-            "Fastboat Return Ticket",
-            "Driver as Guide",
-            "Private Car & Petrol",
-            "Entrance Fee to all Spot",
-            "Lunch"
-          ]
-        }));
-
-        setTrips(mappedTrips);
-
-      } catch (err) {
-        console.error("Error fetch trips:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTrips();
-  }, []);
+const trips = [
+  {
+    id: 1,
+    img: "/img/trips1.png",
+    title: "West Trip Tour",
+    description:
+      "Explore the breathtaking western coast of Nusa Penida. Visit the iconic Kelingking Beach, Broken Beach, and the natural infinity pool of Angel's Billabong.",
+    location: "Nusa Penida",
+    itineraries:
+      "Kelingking Beach, Paluang Beach, Broken Beach, Angel Billabong, Crystal Bay",
+    price: 299000,
+    benefits: [
+      "Fastboat Return Ticket",
+      "Driver as Guide",
+      "Private Car & Petrol",
+      "Entrance Fee to all Spot",
+      "Lunch",
+    ],
+  },
+  {
+    id: 2,
+    img: "/img/trips2.png",
+    title: "East Trip Tour",
+    description:
+      "Discover the hidden gems of the eastern side. Visit Diamond Beach, Atuh Beach, and the famous Thousand Islands viewpoint with its iconic treehouse.",
+    location: "Nusa Penida",
+    itineraries:
+      "Diamond Beach, Atuh Beach, Tree House, Thousand Island, Teletubbies Hill",
+    price: 299000,
+    benefits: [
+      "Fastboat Return Ticket",
+      "Driver as Guide",
+      "Private Car & Petrol",
+      "Entrance Fee to all Spot",
+      "Lunch",
+    ],
+  },
+  {
+    id: 3,
+    img: "/img/trips3.png",
+    title: "Snorkeling Trip",
+    description:
+      "Dive into the crystal clear waters of Nusa Penida. Swim with Manta Rays and explore 4 beautiful spots: Manta Bay, Gamat Bay, Crystal Bay, and Wall Bay.",
+    location: "Nusa Penida",
+    itineraries:
+      "Manta Bay, Gamat Bay, Crystal Bay, Wall Bay",
+    price: 299000,
+    benefits: [
+      "Fastboat Return Ticket",
+      "Sharing Boat Snorkeling",
+      "Snorkeling Gear",
+      "Towel",
+      "Life Jacket",
+      "Guide",
+      "Lunch",
+    ],
+  },
+];
 
   const handleBooking = (tripId) => {
     navigate(`/trip-detail/${tripId}`);
